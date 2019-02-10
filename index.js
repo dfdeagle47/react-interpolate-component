@@ -5,6 +5,7 @@ var invariant = require('invariant');
 var except = require('except');
 var extend = require('object-assign');
 var createReactClass = require('create-react-class');
+var xss  = require('xss');
 
 function isString(object) {
   return Object.prototype.toString.call(object) === '[object String]';
@@ -56,7 +57,7 @@ var Interpolate = createReactClass({
         return memo;
       }, '');
 
-      props.dangerouslySetInnerHTML = { __html: content };
+      props.dangerouslySetInnerHTML = { __html: xss(content) };
     } else {
       format.split(REGEXP).reduce(function(memo, match, index) {
         var child;
